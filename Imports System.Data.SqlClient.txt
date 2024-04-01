@@ -26,6 +26,8 @@ Public Class Form1
                 Me.Hide()
             End If
             Con.Close()
+enf else 
+if
         End If
     End Sub
 
