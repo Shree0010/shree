@@ -1,0 +1,43 @@
+Imports System.Data.SqlClient
+
+Public Class Form1
+
+    Dim Con As SqlConnection = New SqlConnection("Data Source=SHREE\MSSQLSERVER01;Initial Catalog=Dms;Integrated Security=True")
+
+    Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
+        If UsernameTb.Text = "" Then
+            MsgBox("Enter Username")
+        ElseIf PasswordTb.Text = "" Then
+            MsgBox("Enter Password")
+        Else
+            Con.Open()
+            Dim query = "Select * from LoginTb1 where UserName='" & UsernameTb.Text & "' and Password='" & PasswordTb.Text & "' "
+            Dim cmd = New SqlCommand(query, Con)
+            Dim adapter = New SqlDataAdapter(cmd)
+            Dim ds = New DataSet()
+            adapter.Fill(ds)
+            Dim a As Integer
+            a = ds.Tables(0).Rows.Count
+            If a = 0 Then
+                MsgBox("Check your Username and Password")
+            Else
+                Dim Obj = New wc
+                Obj.Show()
+                Me.Hide()
+            End If
+            Con.Close()
+        End If
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked Then
+            PasswordTb.PasswordChar = Nothing
+        Else
+            PasswordTb.PasswordChar = "•"
+        End If
+    End Sub
+
+    Private Sub CancelBtn_Click(sender As Object, e As EventArgs) Handles CancelBtn.Click
+        Application.Exit()
+    End Sub
+End Class
